@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script>
+        async function ajax() {
+            var data = await new Promise(function(resolve, reject) {
+                $.ajax({
+                    dataType:"text",
+                    url: 'myapp/example.config.js'
+                }).done(function(data) {
+                    resolve(data)
+                    console.log(data);
+                }).fail(function(data) {
+                    reject(data)
+                })
+            });
+            console.log('2');
+            var data2 = await new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: 'myapp/index.js',
+                    dataType:"text"
+                }).done(function(data) {
+                    resolve(data)
+                    console.log(data);
+                }).fail(function(data) {
+                    reject(data)
+                })
+            });
+            console.log('3');
+        }
+        ajax() // 先执行异步
+        console.log(1);
+    </script>
+</head>
+<body>
+<div>点击加载数据</div>
+<input type="button" id="button" value="确定" onclick="ajax('myapp/index.js')"/>
+<div id="result"></div>
+</body>
+</html>
